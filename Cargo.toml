@@ -5,7 +5,7 @@ edition = "2021"
 authors = ["NERVEbing <lc91926@gmail.com>"]
 homepage = "https://lvlv.fun/"
 repository = "https://github.com/NERVEbing/grep-rust/"
-license = "Apache License 2.0"
+license = "Apache-2.0"
 description = "Like grep, but use rust."
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
