@@ -1,11 +1,12 @@
 use std::error::Error;
 use std::fs::File;
-use std::io;
 use std::io::Read;
+use std::{env, io};
 
 pub struct Config {
     query: String,
     filename: String,
+    case_sensitive: bool,
 }
 
 impl Config {
@@ -15,18 +16,25 @@ impl Config {
         }
         let query = args[1].clone();
         let filename = args[2].clone();
-        Ok(Config { query, filename })
+        let case_sensitive = env::var("CASE_INSENSITIVE").is_err();
+        Ok(Config {
+            query,
+            filename,
+            case_sensitive,
+        })
     }
 }
 
 pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
     let contents = read_file(&config.filename)?;
-    let result = search(&config.query, contents.as_str());
-
+    let result = if config.case_sensitive {
+        search(&config.query, &contents)
+    } else {
+        search_case_sensitive(&config.query, &contents)
+    };
     for line in result.iter() {
         println!("{}", line);
     }
-
     Ok(())
 }
 
@@ -37,7 +45,16 @@ fn search<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
             results.push(line.trim())
         }
     }
+    results
+}
 
+fn search_case_sensitive<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
+    let mut results = Vec::new();
+    for line in contents.lines() {
+        if line.to_lowercase().contains(&query.to_lowercase()) {
+            results.push(line.trim())
+        }
+    }
     results
 }
 
@@ -57,7 +74,6 @@ mod test {
         let filename = "./LICENSE";
         let contents = read_file(filename).unwrap();
         let results = search(query, contents.as_str());
-
         for line in results.iter() {
             println!("matching line : {}", line);
         }
