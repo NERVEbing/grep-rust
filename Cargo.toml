@@ -4,6 +4,7 @@ version = "0.1.0"
 edition = "2021"
 authors = ["NERVEbing <lc91926@gmail.com>"]
 homepage = "https://lvlv.fun/"
+repository = "https://github.com/NERVEbing/grep-rust/"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
