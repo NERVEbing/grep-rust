@@ -1,6 +1,6 @@
 # grep-rust
 
-Like ```grep```, but uses ```rust```.
+Like ```grep```, but use ```rust```.
 
 ### Usage
 
